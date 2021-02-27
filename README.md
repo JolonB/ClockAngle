@@ -3,7 +3,8 @@
 Have you ever wondered what the angle between the hour hands on a clock is at two different times?  
 Me neither, but here it is anyway.
 
-Simply provide two times in the format hh:mm:ss and the program will calculate the angle between the hour hands.
+Simply provide two times in the format hh:mm:ss and the program will calculate the angle between the hour hands.  
+Or if you're feeling fancy, you can just give *one* time in the same format as above. This will tell the program that you want to know the angle between the minute and the hour hand.
 
 ## Running
 
