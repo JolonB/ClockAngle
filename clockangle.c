@@ -43,13 +43,7 @@ union Time time_diff(union Time *t1, union Time *t2, short *max) {
     return d;
 }
 
-double get_angle(union Time *time_diff, short *max, short *cycles) {
-    double angle = 0;
-    double div_angle = 360;
-    for (int i = 0; i < TIME_LEN; i++) {
-        div_angle *= cycles[i]/(1.0*max[i]);
-        angle += time_diff->times[i]*div_angle;
-    }
+double tidy_angle(float angle) {
     if (angle < 0) {
         angle *= -1;
     }
@@ -60,6 +54,17 @@ double get_angle(union Time *time_diff, short *max, short *cycles) {
         angle = 360 - angle;
     }
     return angle;
+}
+
+double get_angle(union Time *time_diff, short *max, short *cycles, short hand) {
+    double angle = 0;
+    double div_angle = 360;
+    for (short i = hand; i < TIME_LEN; i++) {
+        div_angle *= cycles[i]/(1.0*max[i]);
+        angle += time_diff->times[i]*div_angle;
+    }
+
+    return tidy_angle(angle);
 }
 
 int string_to_int(char *str, short max) {
@@ -114,13 +119,35 @@ int two_time(char **argv, short *max, short *cycles) {
     time_str(&diff, str_buffer);
     printf("%s\n", str_buffer);
     #endif
-    printf("Angle between hour hands: %.4f degrees\n", get_angle(&diff, max, cycles));
+    printf("Angle between hour hands: %.4f degrees\n", get_angle(&diff, max, cycles, 0));  // hand == 0 for hours
 
     return 0;
 }
 
 int one_time(char **argv, short *max, short *cycles) {
+    union Time time;
+    double hour_angle;
+    double minute_angle;
 
+    get_time(&time, argv[1], max);
+
+    char str_buffer[TIME_LEN*3] = ""; // this assumes that each time unit has two digits and they are all followed by a colon (except the last which is followed by a \0)
+
+    #ifdef DEBUG
+    time_str(&time, str_buffer);
+    printf("%s\n", str_buffer);
+    #endif
+
+    hour_angle = get_angle(&time, max, cycles, 0); // hand == 0 for hours
+    minute_angle = get_angle(&time, max, cycles, 1); // hand == 1 for minutes
+    
+    #ifdef DEBUG
+    printf("Hour angle: %f\n", hour_angle);
+    printf("Minute angle: %f\n", minute_angle);
+    #endif
+    printf("Angle between hour and minute hand: %.4f degrees\n", tidy_angle(hour_angle - minute_angle));
+
+    return 0;
 }
 
 int main(int argc, char **argv) {
@@ -130,7 +157,7 @@ int main(int argc, char **argv) {
     short cycles[TIME_LEN] = {2, 1, 1};
 
     if (argc == 2) {
-
+        one_time(argv, max, cycles);
     } else if (argc == 3) {
         two_time(argv, max, cycles);
     } else {

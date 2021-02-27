@@ -19,7 +19,9 @@ To debug, use
 gcc clockangle.c -o clockangle -DDEBUG
 ```
 
-Run the program with
+## Hour Hands
+
+To find the **minimum** angle between the hour hands on two superimposed clocks, run the program with:
 
 ```shell
 ./clockangle h1:m1:s1 h2:m2:s2
@@ -32,3 +34,17 @@ For example:
 ```
 
 The program will return the **minimum** angle between the two hour hands.
+
+## Minute/Hour Hands
+
+To find the **minimum** angle between the hour and minute hand on one clock, run the program with:
+
+```shell
+./clockangle h:m:s
+```
+
+For example:
+
+```shell
+./clockangle 06:46:45
+```
