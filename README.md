@@ -25,4 +25,10 @@ Run the program with
 ./clockangle h1:m1:s1 h2:m2:s2
 ```
 
+For example:
+
+```shell
+./clockangle 2:06:52 19:43:08
+```
+
 The program will return the **minimum** angle between the two hour hands.
