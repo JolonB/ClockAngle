@@ -16,7 +16,7 @@ gcc clockangle.c -o clockangle
 To debug, use
 
 ```shell
-gcc clockangle.c -o clockangle
+gcc clockangle.c -o clockangle -DDEBUG
 ```
 
 Run the program with
