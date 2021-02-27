@@ -77,7 +77,7 @@ int string_to_int(char *str, short max) {
     return v;
 }
 
-void get_time(union Time *t, char* str_time, short *max) {
+void get_time(union Time *t, char *str_time, short *max) {
     // Initialise the struct with all zeros
     *t = (union Time) {.times = {0, 0, 0}};
 
@@ -93,14 +93,7 @@ void get_time(union Time *t, char* str_time, short *max) {
     }
 }
 
-int main(int argc, char** argv) {
-    if (argc != 3) {
-        error("Please provide two times to find the angle between.");
-    }
-
-    short max[TIME_LEN] = {24, 60, 60};
-    short cycles[TIME_LEN] = {2, 1, 1};
-
+int two_time(char **argv, short *max, short *cycles) {
     union Time start_time;
     union Time end_time;
 
@@ -124,4 +117,25 @@ int main(int argc, char** argv) {
     printf("Angle between hour hands: %.4f degrees\n", get_angle(&diff, max, cycles));
 
     return 0;
+}
+
+int one_time(char **argv, short *max, short *cycles) {
+
+}
+
+int main(int argc, char **argv) {
+    /* Maximum value of each element */
+    short max[TIME_LEN] = {24, 60, 60};
+    /* Number of cycles on the clock needed to reach the max value */
+    short cycles[TIME_LEN] = {2, 1, 1};
+
+    if (argc == 2) {
+
+    } else if (argc == 3) {
+        two_time(argv, max, cycles);
+    } else {
+        error("Please provide one time to find the angle between the minute and hour hands or two times to find the angle between the hour hands.");
+    }
+
+    
 }
